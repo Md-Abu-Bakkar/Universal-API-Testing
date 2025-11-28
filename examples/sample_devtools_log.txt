@@ -1,0 +1,102 @@
+# Sample DevTools Network Log
+# This is an example of what browser DevTools network export might look like
+# Copy and paste similar data from your browser's DevTools
+
+GET https://api.example.com/v1/users
+Status: 200
+Content-Type: application/json
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
+
+Response:
+{
+  "users": [
+    {"id": 1, "name": "John Doe", "email": "john@example.com"},
+    {"id": 2, "name": "Jane Smith", "email": "jane@example.com"}
+  ]
+}
+
+POST https://api.example.com/v1/login
+Status: 200
+Content-Type: application/json
+Authorization: Bearer xyz123
+
+Request Payload:
+{
+  "username": "admin",
+  "password": "secret"
+}
+
+Response:
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "user": {"id": 1, "username": "admin"}
+}
+
+GET https://api.example.com/v1/sms
+Status: 200
+Content-Type: application/json
+
+Response:
+{
+  "messages": [
+    {"id": 1, "from": "+1234567890", "text": "Your OTP is 123456", "timestamp": "2024-01-15T10:30:00Z"},
+    {"id": 2, "from": "+1987654321", "text": "Verification code: 654321", "timestamp": "2024-01-15T10:31:00Z"}
+  ]
+}
+
+# cURL command examples
+curl -X GET \
+  -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" \
+  -H "Accept: application/json" \
+  "https://api.example.com/v1/data"
+
+curl -X POST \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer token_here" \
+  -d '{"key": "value"}' \
+  "https://api.example.com/v1/create"
+
+# HAR JSON example
+{
+  "log": {
+    "version": "1.2",
+    "creator": {
+      "name": "Browser",
+      "version": "1.0"
+    },
+    "entries": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.example.com/v1/info",
+          "headers": [
+            {"name": "User-Agent", "value": "Mozilla/5.0..."},
+            {"name": "Accept", "value": "application/json"}
+          ]
+        },
+        "response": {
+          "status": 200,
+          "content": {
+            "size": 1024,
+            "mimeType": "application/json",
+            "text": "{\"status\": \"ok\", \"data\": {\"version\": \"1.0\"}}"
+          }
+        }
+      }
+    ]
+  }
+}
+
+# Raw HTTP request example
+GET /v1/data HTTP/1.1
+Host: api.example.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
+Accept: application/json
+Authorization: Bearer abc123
+
+# Response
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 45
+
+{"data": [{"id": 1, "name": "Example"}]}
