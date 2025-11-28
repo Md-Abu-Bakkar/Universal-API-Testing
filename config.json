@@ -1,0 +1,61 @@
+{
+  "app": {
+    "name": "Universal API Tester",
+    "version": "1.0.0",
+    "author": "Md Abu Bakkar",
+    "description": "Automated API Detection, Testing, and Bot Code Generation Tool"
+  },
+  "browser": {
+    "firefox_path": "/data/data/com.termux/files/usr/bin/firefox",
+    "chromium_path": "/data/data/com.termux/files/usr/bin/chromium",
+    "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+    "timeout": 30
+  },
+  "api_detection": {
+    "timeout": 30,
+    "retry_attempts": 3,
+    "max_apis_per_scan": 50,
+    "enable_auto_classification": true,
+    "response_size_limit": 1048576
+  },
+  "login": {
+    "max_login_attempts": 3,
+    "session_timeout": 3600,
+    "auto_captcha_solve": true,
+    "save_cookies": true
+  },
+  "export": {
+    "python_template": "requests",
+    "include_comments": true,
+    "add_headers": true,
+    "add_error_handling": true,
+    "default_output_dir": "./exports"
+  },
+  "gui": {
+    "theme": "dark",
+    "window_width": 1200,
+    "window_height": 800,
+    "auto_save_logs": true,
+    "show_line_numbers": true
+  },
+  "security": {
+    "verify_ssl": false,
+    "allow_redirects": true,
+    "max_redirects": 5,
+    "user_agent_rotation": false
+  },
+  "logging": {
+    "level": "INFO",
+    "file_path": "./logs/api_tester.log",
+    "max_file_size": 10485760,
+    "backup_count": 5
+  },
+  "advanced": {
+    "concurrent_requests": 5,
+    "delay_between_requests": 1,
+    "enable_proxy": false,
+    "proxy_url": "",
+    "custom_headers": {},
+    "blacklist_domains": ["google.com", "facebook.com", "twitter.com"]
+  }
+}
