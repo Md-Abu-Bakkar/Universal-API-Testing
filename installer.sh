@@ -37,6 +37,7 @@ check_python() {
         print_success "Python $PYTHON_VERSION found"
     else
         print_error "Python 3.8+ is required but not installed"
+        print_status "Please install Python from https://python.org"
         exit 1
     fi
 }
@@ -47,7 +48,13 @@ check_pip() {
         print_success "pip3 found"
     else
         print_error "pip3 is required but not installed"
-        exit 1
+        print_status "Installing pip..."
+        if python3 -m ensurepip --upgrade; then
+            print_success "pip installed successfully"
+        else
+            print_error "Failed to install pip"
+            exit 1
+        fi
     fi
 }
 
@@ -55,11 +62,24 @@ check_pip() {
 install_dependencies() {
     print_status "Installing Python dependencies..."
     
+    # Upgrade pip first
+    python3 -m pip install --upgrade pip
+    
     if pip3 install -r requirements.txt; then
         print_success "Python dependencies installed successfully"
     else
         print_error "Failed to install Python dependencies"
-        exit 1
+        print_status "Trying alternative installation method..."
+        
+        # Try installing packages one by one
+        for package in requests beautifulsoup4 pyperclip colorama rich prompt-toolkit lxml aiohttp fake-useragent urllib3 qrcode pycryptodome; do
+            print_status "Installing $package..."
+            if pip3 install "$package"; then
+                print_success "Installed $package"
+            else
+                print_warning "Failed to install $package"
+            fi
+        done
     fi
 }
 
@@ -100,6 +120,24 @@ create_config() {
     if [[ -f "config.json" ]] && [[ ! -f "$CONFIG_DIR/config.json" ]]; then
         cp "config.json" "$CONFIG_DIR/config.json"
         print_success "Default configuration created"
+    else
+        # Create basic config file
+        cat > "$CONFIG_DIR/config.json" << EOF
+{
+  "app": {
+    "name": "Universal API Tester",
+    "version": "1.0.0"
+  },
+  "api_detection": {
+    "timeout": 30,
+    "retry_attempts": 3
+  },
+  "export": {
+    "default_output_dir": "./exports"
+  }
+}
+EOF
+        print_success "Basic configuration created"
     fi
 }
 
@@ -110,18 +148,17 @@ install_package() {
     if pip3 install -e .; then
         print_success "Package installed successfully"
     else
-        print_error "Failed to install package"
-        exit 1
+        print_warning "Failed to install package in development mode"
+        print_status "Continuing with basic installation..."
     fi
 }
 
 # Create desktop entry (for Linux)
 create_desktop_entry() {
-    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    if [[ "$OSTYPE" == "linux-gnu"* ]] && [[ -d "$HOME/.local/share/applications" ]]; then
         print_status "Creating desktop entry..."
         
         DESKTOP_FILE="$HOME/.local/share/applications/universal-api-tester.desktop"
-        mkdir -p "$(dirname "$DESKTOP_FILE")"
         
         cat > "$DESKTOP_FILE" << EOF
 [Desktop Entry]
@@ -129,7 +166,7 @@ Version=1.0
 Type=Application
 Name=Universal API Tester
 Comment=Automated API Detection and Testing Tool
-Exec=api-tester --gui
+Exec=python3 $PWD/main.py --gui
 Icon=utilities-terminal
 Categories=Development;Network;
 Terminal=false
@@ -141,6 +178,45 @@ EOF
             print_success "Desktop entry created"
         fi
     fi
+}
+
+# Create startup script
+create_startup_script() {
+    print_status "Creating startup script..."
+    
+    STARTUP_SCRIPT="api-tester"
+    
+    cat > "$STARTUP_SCRIPT" << 'EOF'
+#!/bin/bash
+# Universal API Tester Startup Script
+
+cd "$(dirname "$0")"
+python3 main.py "$@"
+EOF
+    
+    chmod +x "$STARTUP_SCRIPT"
+    print_success "Startup script created: ./api-tester"
+}
+
+# Test installation
+test_installation() {
+    print_status "Testing installation..."
+    
+    if python3 -c "from core.api_scanner import APIScanner; print('✅ Core modules imported successfully')"; then
+        print_success "Core functionality test passed"
+    else
+        print_error "Core functionality test failed"
+        return 1
+    fi
+    
+    if python3 -c "import requests; print('✅ Dependencies imported successfully')"; then
+        print_success "Dependencies test passed"
+    else
+        print_error "Dependencies test failed"
+        return 1
+    fi
+    
+    return 0
 }
 
 # Main installation function
@@ -165,20 +241,33 @@ main() {
     # Create configuration
     create_config
     
+    # Create startup script
+    create_startup_script
+    
     # Create desktop entry
     create_desktop_entry
     
-    echo ""
-    print_success "🎉 Installation completed successfully!"
-    echo ""
-    echo "📖 Quick Start:"
-    echo "  CLI Mode:    python main.py --cli"
-    echo "  GUI Mode:    python main.py --gui"
-    echo "  Auto Mode:   python main.py"
-    echo ""
-    echo "🔧 Configuration: ~/.config/universal-api-tester/config.json"
-    echo "📚 Documentation: https://github.com/Md-Abu-Bakkar/Universal-API-Testing"
-    echo ""
+    # Test installation
+    if test_installation; then
+        echo ""
+        print_success "🎉 Installation completed successfully!"
+        echo ""
+        echo "📖 Quick Start:"
+        echo "  CLI Mode:    python3 main.py --cli"
+        echo "  GUI Mode:    python3 main.py --gui"
+        echo "  Auto Mode:   python3 main.py"
+        echo "  Script:      ./api-tester"
+        echo ""
+        echo "🔧 Configuration: ~/.config/universal-api-tester/config.json"
+        echo "📚 Documentation: https://github.com/Md-Abu-Bakkar/Universal-API-Testing"
+        echo ""
+        echo "💡 Tip: Run './api-tester --help' to see all options"
+    else
+        echo ""
+        print_warning "⚠️  Installation completed with warnings"
+        print_status "Some features might not work properly"
+        print_status "Please check the error messages above"
+    fi
 }
 
 # Run main function
