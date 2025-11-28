@@ -49,3 +49,10 @@ Universal API Tester is a professional tool that automatically detects, tests, a
 ```bash
 # Download and run installer
 curl -s https://raw.githubusercontent.com/Md-Abu-Bakkar/Universal-API-Testing/main/installer.sh | bash
+
+
+
+
+pip install flask
+python web_interface.py
+# তারপর ব্রাউজারে যান: http://localhost:5000
