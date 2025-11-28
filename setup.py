@@ -5,13 +5,13 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 with open("requirements.txt", "r", encoding="utf-8") as fh:
-    requirements = fh.read().splitlines()
+    requirements = [line.strip() for line in fh if line.strip() and not line.startswith('#')]
 
 setup(
     name="universal-api-tester",
     version="1.0.0",
     author="Md Abu Bakkar",
-    author_email="abubakkar678121@gmail.com",
+    author_email="abubokkor.cse@gmail.com",
     description="Automated API Detection, Testing, and Bot Code Generation Tool",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -33,7 +33,6 @@ setup(
     entry_points={
         "console_scripts": [
             "api-tester=main:main",
-            "universal-api-tester=main:main",
         ],
     },
     include_package_data=True,
@@ -44,5 +43,10 @@ setup(
             "examples/*.json",
             "examples/*.txt",
         ],
+    },
+    keywords="api testing automation scanner bot code-generation",
+    project_urls={
+        "Bug Reports": "https://github.com/Md-Abu-Bakkar/Universal-API-Testing/issues",
+        "Source": "https://github.com/Md-Abu-Bakkar/Universal-API-Testing",
     },
 )
