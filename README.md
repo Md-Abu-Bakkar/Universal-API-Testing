@@ -8,7 +8,7 @@
 
 **Automated API Detection, Testing, and Bot Code Generation Tool**
 
-[Features](#features) • [Installation](#installation) • [Usage](#usage) • [Screenshots](#screenshots) • [Contributing](#contributing)
+[Features](#features) • [Installation](#installation) • [Usage](#usage) • [Demo](#demo) • [Contributing](#contributing)
 
 </div>
 
@@ -45,6 +45,7 @@ Universal API Tester is a professional tool that automatically detects, tests, a
 
 ## 📦 Installation
 
-### Quick Install (Termux)
+### Quick Install (All Platforms)
 ```bash
-bash <(curl -s https://raw.githubusercontent.com/Md-Abu-Bakkar/Universal-API-Testing/main/installer.sh)
+# Download and run installer
+curl -s https://raw.githubusercontent.com/Md-Abu-Bakkar/Universal-API-Testing/main/installer.sh | bash
