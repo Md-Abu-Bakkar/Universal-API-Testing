@@ -3,7 +3,8 @@
     "name": "Universal API Tester",
     "version": "1.0.0",
     "author": "Md Abu Bakkar",
-    "description": "Automated API Detection, Testing, and Bot Code Generation Tool"
+    "description": "Automated API Detection, Testing, and Bot Code Generation Tool",
+    "github": "https://github.com/Md-Abu-Bakkar/Universal-API-Testing"
   },
   "browser": {
     "firefox_path": "/data/data/com.termux/files/usr/bin/firefox",
