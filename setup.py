@@ -11,7 +11,7 @@ setup(
     name="universal-api-tester",
     version="1.0.0",
     author="Md Abu Bakkar",
-    author_email="abubokkor.cse@gmail.com",
+    author_email="abubakkar678121@gmail.com",
     description="Automated API Detection, Testing, and Bot Code Generation Tool",
     long_description=long_description,
     long_description_content_type="text/markdown",
