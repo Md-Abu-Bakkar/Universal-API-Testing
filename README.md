@@ -47,4 +47,4 @@ Universal API Tester is a professional tool that automatically detects, tests, a
 
 ### Quick Install (Termux)
 ```bash
-bash <(curl -s https://raw.githubusercontent.com/yourusername/universal-api-tester/main/installer.sh)
+bash <(curl -s https://raw.githubusercontent.com/Md-Abu-Bakkar/Universal-API-Testing/main/installer.sh)
