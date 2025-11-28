@@ -20,8 +20,8 @@ try:
     from utils.termux_helper import TermuxHelper
     from utils.config_manager import ConfigManager
 except ImportError as e:
-    print(f"Import error: {e}")
-    print("Please install required dependencies: pip install -r requirements.txt")
+    print(f"❌ Import error: {e}")
+    print("📦 Please install required dependencies: pip install -r requirements.txt")
     sys.exit(1)
 
 # Configure logging
