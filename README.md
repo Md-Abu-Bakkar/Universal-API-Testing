@@ -51,8 +51,18 @@ Universal API Tester is a professional tool that automatically detects, tests, a
 curl -s https://raw.githubusercontent.com/Md-Abu-Bakkar/Universal-API-Testing/main/installer.sh | bash
 
 
-
-
 pip install flask
 python web_interface.py
 # তারপর ব্রাউজারে যান: http://localhost:5000
+
+# Run command Termux-X11x-X11. Termux-X11 app install করুন (Play Store থেকে)
+# 2. Termux-এ commands:
+pkg install x11-repo
+pkg install termux-x11-nightly
+
+# 3. Separate session-এ run করুন:
+termux-x11 :0 &
+
+# 4. অন্য terminal-এ:
+export DISPLAY=:0
+python main.py --gui
